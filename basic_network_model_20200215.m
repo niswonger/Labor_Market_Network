@@ -13,7 +13,7 @@ d_l = 2*[3,1;
        1,3]; % mean connections for low skilled from city to city
 d_s = 2*[10,3;
        3, 10]; % mean connections for high skilled from city to city
-m = 1.8; % Moving cost
+m = 1; % Moving cost
 ed = 5; % training cost 
 lambda = 10; % objective function penalty for uncertainty 
 %% Set initial population
@@ -41,9 +41,34 @@ end
 
 
 
-%% Get next generation
-% this function returns a new population of locations, skill levels, wages
-% as well as showing how many in the last generation moved or chose to
-% upgrade skills.   
-[c_next,s_next,w_next,move,edu] = solveNextGen(d_l,d_s,c,s,w,w_bar); 
+%% Play forwar for T periods
+T = 100; 
+pop = zeros(T,2);
+skill = zeros(T,2);
+movers = zeros(T,2);
+% Prepare to loop for several generations
+for i = 1:T
+    pop(i,:) = [sum(c==1),sum(c==2)];
+    skill(i,:) = [sum(c==1&s==1)/sum(c==1),sum(c==2&s==1)/sum(c==2)];
+    % this function returns a new population of locations, skill levels, wages
+    % as well as showing how many in the last generation moved or chose to
+    % upgrade skills. 
+    [c,s,w,move,edu] = ...
+        solveNextGen(d_l,d_s,c,s,w,w_bar); 
+    movers(i,:) = move;
+end
+
+
+
+plot(skill)
+legend('1','2')
+plot(movers)
+legend('1','2')
+plot(pop)
+legend('1','2')
+
+
+
+
+
 
