@@ -1,6 +1,6 @@
 clear all 
 %% Set key parameters
-global N_tot C sigma n m ed lambda w_l
+global N_tot C sigma n m ed lambda w_l h eps
 N_tot = 10000; % total population
 C = 2; % number of cities
 f_s = .3; % initial high skill fraction
@@ -16,6 +16,8 @@ d_s = 2*[10,3;
 m = 1; % Moving cost
 ed = 5; % training cost 
 lambda = 10; % objective function penalty for uncertainty 
+h = 2e-6; % housing cost
+eps = 2; % housing elasticity
 %% Set initial population
 % Assign cities to the population
 c = randsample(repmat(1:C,1,N_tot/C),N_tot)';
@@ -62,12 +64,10 @@ end
 
 plot(skill)
 legend('1','2')
-plot(movers)
-legend('1','2')
 plot(pop)
 legend('1','2')
-
-
+plot(movers)
+legend('1','2')
 
 
 

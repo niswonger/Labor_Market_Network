@@ -4,7 +4,7 @@
 % whether to upgrade skills based on sempling wages from their network
 
 function [c_next,s_next,w_next,move,edu] = solveNextGen(d_l,d_s,c,s,w,w_bar)
-    global N_tot C sigma n m ed lambda w_l
+    global N_tot C sigma n m ed lambda w_l h eps
     %% Generate "new" people
     % Get proportional new labor 
     N_new = N_tot*n;
@@ -35,11 +35,14 @@ function [c_next,s_next,w_next,move,edu] = solveNextGen(d_l,d_s,c,s,w,w_bar)
     end
     w_obs(isnan(w_obs))=0;
     % New people choose skills and location
-    U_new = w_obs-lambda./(d_obs).^.5-[m,0].*(c_new==2)-[0,m].*(c_new==1)-ed;
-    m_obs_1 = (c_new == 2 & (U_new(:,1) == max(U_new,[],2)& max(U_new,[],2)>w_l));
-    m_obs_2 = (c_new == 1 & (U_new(:,2) == max(U_new,[],2)& max(U_new,[],2)>w_l));
+    out = w_l; %-h*[sum(c==1),sum(c==2)].^(eps); % Outside option of no upgrading
+    U_new = w_obs-lambda./(d_obs).^.5-[m,0].*(c_new==2)-[0,m].*(c_new==1)-ed; % -h*[sum(c==1),sum(c==2)].^(eps);
+    m_obs_1 = (c_new == 2 & (U_new(:,1) >  U_new(:,2)& U_new(:,1)>max(out-[m,0])));% |...
+        %(c_new == 2 & (out(1)-m)>out(2) & max(U_new,[],2)<max(out-[m,0]));
+    m_obs_2 = (c_new == 1 & (U_new(:,2) >  U_new(:,1)& U_new(:,2)>max(out-[0,m])));% |...
+        %(c_new == 1 & (out(2)-m)>out(1) & max(U_new,[],2)<max(out-[0,m]));
     m_obs = m_obs_1|m_obs_2;
-    s_new = (max(U_new,[],2)>w_l);
+    s_new = (max(U_new,[],2)>max(out-[m,0].*(c_new==2)-[0,m].*(c_new==1),[],2));
     %% Determine the new population's wage, remove "old" people and merge
     % Get new cities
     c_next = c_new;
