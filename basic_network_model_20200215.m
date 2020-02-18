@@ -62,13 +62,57 @@ end
 
 
 
-plot(skill)
-legend('1','2')
 plot(pop)
 legend('1','2')
 plot(movers)
 legend('1','2')
 
 
+figure
+hold on 
+plot(skill)
+% Add labels
+hXLabel = xlabel('Periods');
+hYLabel = ylabel('Fraction Skilled');
+% Add legend
+hLegend = legend('High Return','Low Return');
+% Adjust font
+set([hXLabel, hYLabel, hLegend], 'FontSize', 15)
+% set(hTitle, 'FontSize', 12, 'FontWeight' , 'bold')
+set(gca, 'Box', 'off', 'TickDir', 'out', 'TickLength', [.02 .02], ...
+    'XMinorTick', 'on', 'YMinorTick', 'on', 'YGrid', 'off', ...
+    'XColor', [.3 .3 .3], 'YColor', [.3 .3 .3], ...
+    'LineWidth', 1)
+set(gcf,'color','w');
 
+figure
+plot(pop)
+% Add labels
+hXLabel = xlabel('Periods');
+hYLabel = ylabel('Population');
+% Add legend
+hLegend = legend('High Return','Low Return');
+% Adjust font
+set([hXLabel, hYLabel, hLegend], 'FontSize', 15)
+% set(hTitle, 'FontSize', 12, 'FontWeight' , 'bold')
+set(gca, 'Box', 'off', 'TickDir', 'out', 'TickLength', [.02 .02], ...
+    'XMinorTick', 'on', 'YMinorTick', 'on', 'YGrid', 'off', ...
+    'XColor', [.3 .3 .3], 'YColor', [.3 .3 .3], ...
+    'LineWidth', 1)
+set(gcf,'color','w');
 
+figure
+plot(movers)
+% Add labels
+hXLabel = xlabel('Periods');
+hYLabel = ylabel('Total Number of Movers');
+% Add legend
+hLegend = legend('High Return','Low Return');
+% Adjust font
+set([hXLabel, hYLabel, hLegend], 'FontSize', 15)
+% set(hTitle, 'FontSize', 12, 'FontWeight' , 'bold')
+set(gca, 'Box', 'off', 'TickDir', 'out', 'TickLength', [.02 .02], ...
+    'XMinorTick', 'on', 'YMinorTick', 'on', 'YGrid', 'off', ...
+    'XColor', [.3 .3 .3], 'YColor', [.3 .3 .3], ...
+    'LineWidth', 1)
+set(gcf,'color','w');
